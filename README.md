@@ -4,11 +4,12 @@ To ensure that you have the best development experience with this project, we re
 
 ESLint
 Prettier
+TypeScript Vue Plugin (Volar)
+
 These extensions will help you catch any potential issues with your code and keep your codebase consistent and easy to read.
 
 Additionally, we recommend enabling the "Format On Save" option in VSCode. This will automatically format your code with Prettier every time you save a file, which will save you time and effort in keeping your code formatted correctly.
 
----
 
 # Vue 3 + TypeScript + Vite
 
