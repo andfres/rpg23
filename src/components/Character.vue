@@ -3,7 +3,7 @@
     class="character"
     :class="{ enemigo: player.enemy, seleccionado: isSelected }"
   >
-    <div class="sprite"></div>
+    <div class="sprite" :style="{ backgroundImage: backgroundUrl }"></div>
   </div>
   <!-- <div v-if="player.enemy">Enemigo</div> -->
 </template>
@@ -27,6 +27,12 @@ const isSelected = computed(() => {
   return props.selectedPlayerId === props.player.id;
 });
 
+const backgroundUrl = computed(() => `url('${props.player.classType.url}')`);
+const backgroundUrl2 = computed(() => props.player.classType.url);
+const backgroundUrl3 = `"${props.player.classType.url}"`;
+
+const color = 'red';
+
 const attack = () => {
   alert('Attack');
 };
@@ -40,9 +46,14 @@ $width: 128px;
 $height: 128px;
 $image-width: 512px;
 $num-steps: 4;
+/* $url: v-bind(backgroundUrl); */
 
 .sprite {
-  background-image: url('../assets/knight/alt/Knight_1/Idle.png');
+  /*   background-image: $url; */
+
+  element.style {
+    background-image: url(../assets/knight/alt/Knight_1/Idle.png);
+  }
   background-position: 0 0;
   background-size: $image-width $height;
   width: $width;
