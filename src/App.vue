@@ -26,12 +26,12 @@ import { Player, classes } from './models/models';
 import Character from './components/Character.vue';
 
 const allies = [
-  new Player(0, 'p1', 100, classes[0], false),
+  new Player(0, 'p1', 100, classes[1], false),
   new Player(1, 'p2', 100, classes[0], false),
 ];
 
 const enemies = [
-  new Player(0, 'e1', 100, classes[0], true),
+  new Player(0, 'e1', 100, classes[1], true),
   new Player(1, 'e2', 100, classes[0], true),
 ];
 
