@@ -23,6 +23,8 @@
     <button @click="gameStore.attack" :disabled="!canAttack">
       Atacar
     </button>
+
+    <!-- Añadir detalle aliado, foto personaje, habilidades -->
   </div>
 </template>
 
