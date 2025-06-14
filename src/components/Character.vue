@@ -28,8 +28,10 @@ const isSelected = computed(() => {
 });
 
 const backgroundUrl = computed(() => `url('${props.player.classType.url}')`);
+const ancho = computed(() => `${props.player.classType.ancho}px`);
 
-const color = 'red';
+const numSteps = computed(() => props.player.classType.numSteps);
+const color = computed(() => 'red');
 
 const attack = () => {
   alert('Attack');
@@ -42,9 +44,13 @@ const attack = () => {
 }
 $width: 128px;
 $height: 128px;
-$image-width: 512px;
-$num-steps: 4;
+/* $image-width: #{'500px'}; */
+// Esto no va
+$image-width: #{(v-bind(ancho))};
+
 $url: v-bind(backgroundUrl);
+$num-steps: v-bind(numSteps);
+$color: v-bind(color);
 
 .sprite {
   background-image: $url;
@@ -72,7 +78,7 @@ $url: v-bind(backgroundUrl);
 }
 
 .enemigo {
-  background-color: red;
+  background-color: $color;
   transform: scaleX(-1);
 }
 

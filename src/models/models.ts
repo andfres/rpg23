@@ -19,6 +19,8 @@ export class Player implements PlayerInterface {
 interface Class {
   description: string;
   url: string;
+  ancho: number;
+  numSteps: number;
   abilities: Ability[];
 }
 
@@ -29,7 +31,9 @@ interface Ability {
 
 class Wizard implements Class {
   description: string = 'Uses magic to defeat enemies';
-  url: string = 'src/assets/knight/alt/Knight_3/Idle.png';
+  url: string = 'src/assets/Samurai/Idle.png';
+  ancho: number = 768;
+  numSteps: number = 6;
   abilities: Ability[] = [
     { name: 'Fireball', damage: 7 },
     { name: 'Ice Bolt', damage: 3 },
@@ -38,7 +42,9 @@ class Wizard implements Class {
 
 class Warrior implements Class {
   description: string = 'Fights enemies with melee weapons and bows';
-  url: string = 'src/assets/knight/alt/Knight_1/Idle.png';
+  url: string = 'src/assets/Knight_1/Idle.png';
+  ancho: number = 512;
+  numSteps: number = 4;
   abilities: Ability[] = [
     { name: 'Sword Strike', damage: 6 },
     { name: 'Arrow Shot', damage: 4 },
