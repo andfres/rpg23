@@ -1,3 +1,5 @@
+<!-- Character.vue -->
+
 <template>
   <div
     class="character"
@@ -6,7 +8,7 @@
   >
     <div class="info">
       <strong>{{ player.name }}</strong>
-      <div>Vida: {{ player.life }}</div>
+      <div>Vida: {{ player.hp }}</div>
       <div>Clase: {{ player.classType.name }}</div>
     </div>
   </div>
@@ -14,7 +16,7 @@
 
 <script setup lang="ts">
 import type { Player } from '../models/player'
-import { computed, defineProps } from 'vue'
+import { computed } from 'vue'
 
 const props = defineProps<{
   player: Player

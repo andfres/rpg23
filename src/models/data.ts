@@ -1,5 +1,6 @@
 // src/models/data.ts
-import type { Ability, CharacterClass } from './classes'
+import type { CharacterClass } from './classes';
+import type { Ability } from './abilities';
 
 export const abilities: Record<string, Ability> = {
   bolaFuego: {
@@ -18,7 +19,7 @@ export const abilities: Record<string, Ability> = {
     damageType: 'hielo',
     costMana: 5,
   },
-}
+};
 
 export const classes: Record<string, CharacterClass> = {
   mago: {
@@ -33,4 +34,4 @@ export const classes: Record<string, CharacterClass> = {
     description: 'Experto en combate cuerpo a cuerpo',
     abilities: [],
   },
-}
+};
