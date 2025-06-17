@@ -34,7 +34,7 @@ export const useGameStore = defineStore('game', {
     ],
     selectedAllyId: null as number | null,
     selectedEnemyId: null as number | null,
-    turnOrder: [] as any[],
+    turnOrder: [] as Player[],
     turnIndex: 0,
   }),
   actions: {
@@ -47,19 +47,15 @@ export const useGameStore = defineStore('game', {
     attack() {
       if (this.selectedAllyId == null || this.selectedEnemyId == null) return;
 
-      // Ejemplo simple de ataque:
-      const attacker = this.allies.find(
-        (p: Player) => p.id === this.selectedAllyId
-      );
-      const target = this.enemies.find(
-        (p: Player) => p.id === this.selectedEnemyId
-      );
+      const attacker = this.allies.find((p) => p.id === this.selectedAllyId);
+      const target = this.enemies.find((p) => p.id === this.selectedEnemyId);
 
       if (!attacker || !target) return;
 
-      // Resta vida (fijo por ahora)
       target.hp -= 20;
       if (target.hp < 0) target.hp = 0;
+
+      this.siguienteTurno();
     },
 
     calcularOrdenTurnos() {
@@ -68,22 +64,59 @@ export const useGameStore = defineStore('game', {
         .sort((a, b) => b.speed - a.speed);
       this.turnIndex = 0;
     },
+
     pasarTurno() {
-      this.turnIndex = (this.turnIndex + 1) % this.turnOrder.length;
-      if (this.turnOrder[this.turnIndex].hp <= 0) this.pasarTurno(); // saltar muertos
+      for (let i = 0; i < this.turnOrder.length; i++) {
+        this.turnIndex++;
+        if (this.turnIndex >= this.turnOrder.length) {
+          this.turnIndex = 0;
+        }
+        if (this.turnOrder[this.turnIndex].hp > 0) {
+          break;
+        }
+      }
     },
-    attackEnemy() {
+
+    siguienteTurno() {
+      this.pasarTurno();
+
+      const actual = this.turnOrder[this.turnIndex];
+
+      if (actual.enemy) {
+        this.attackEnemy();
+        // No llamar a siguienteTurno aquí para evitar bucle infinito
+      }
+      // Si es aliado, esperar input del jugador
+    },
+
+    async attackEnemy() {
       const atacante = this.turnOrder[this.turnIndex];
-      if (!this.enemies.includes(atacante)) return; // Solo enemigos atacan
-      // Elegir objetivo: un aliado vivo al azar
-      const aliadosVivos = this.allies.filter((a: Player) => a.hp > 0);
-      if (aliadosVivos.length === 0) return; // Fin del juego
+      if (!this.enemies.includes(atacante)) return;
+
+      const aliadosVivos = this.allies.filter((a) => a.hp > 0);
+      if (aliadosVivos.length === 0) {
+        // Fin del juego (puedes manejarlo aquí)
+        return;
+      }
+
+      // Espera 5 segundos antes de atacar
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
       const objetivo =
         aliadosVivos[Math.floor(Math.random() * aliadosVivos.length)];
-      // Aplica el daño (ejemplo: daño fijo o según ataque)
       objetivo.hp = Math.max(0, objetivo.hp - 20);
-      // Aquí puedes añadir animación, logs, etc.
-      this.pasarTurno();
+
+      // Termina el turno enemigo y pasa al siguiente turno
+      this.siguienteTurno();
+    },
+  },
+
+  getters: {
+    ordenConTurnoActual(state) {
+      return state.turnOrder.map((p, idx) => ({
+        ...p,
+        isCurrent: idx === state.turnIndex,
+      }));
     },
   },
 });

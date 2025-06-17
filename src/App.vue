@@ -20,24 +20,47 @@
       />
     </div>
 
-    <button @click="gameStore.attack" :disabled="!canAttack">
-      Atacar
-    </button>
+    <button @click="gameStore.attack" :disabled="!canAttack">Atacar</button>
+
+    <pre>
+      Turn Order:
+      {{
+        gameStore.ordenConTurnoActual
+          .map(
+            (p) =>
+              `${p.name} (HP: ${p.hp})${p.isCurrent ? ' ← turno actual' : ''}`
+          )
+          .join('\n')
+      }}
+  </pre
+    >
 
     <!-- Añadir detalle aliado, foto personaje, habilidades -->
   </div>
 </template>
 
 <script setup lang="ts">
-import { useGameStore } from './stores/game'
-import Character from './components/Character.vue'
-import { computed } from 'vue'
+import { onMounted } from 'vue';
+import { useGameStore } from './stores/game';
+import Character from './components/Character.vue';
+import { computed } from 'vue';
 
-const gameStore = useGameStore()
+const gameStore = useGameStore();
 
 const canAttack = computed(() => {
-  return gameStore.selectedAllyId !== null && gameStore.selectedEnemyId !== null
-})
+  return (
+    gameStore.selectedAllyId !== null && gameStore.selectedEnemyId !== null
+  );
+});
+
+onMounted(() => {
+  gameStore.calcularOrdenTurnos();
+});
+
+const props = defineProps<{
+  nombre: string;
+  edad?: number; // opcional
+}>();
 </script>
 
 <style scoped lang="scss">
